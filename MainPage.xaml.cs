@@ -1,5 +1,6 @@
 ﻿using System.IO.Ports;
 using System.Text;
+using System.Timers;
 //using Windows.Devices.Enumeration;
 
 
@@ -16,6 +17,13 @@ namespace SolarLabRight2023
         private int lostPacketCount = 0;
         private int packetRollOver = 0;
         private int chkSumError = 0;
+
+        //set up variables for the graph
+        public int Yaxis = 0;
+        public double degrees = 0;
+        public int count = 0;
+        public int graphHeight = 500;
+
 
         //create a new instances needed for our program
         StringBuilder stringBuilderSend = new StringBuilder("###1111196");
@@ -65,9 +73,41 @@ namespace SolarLabRight2023
         //function that initialize the serialPort with our desired data rate 
         private void MainPage_Loaded(object sender, EventArgs e)
         {
+            //set up serial ports 
             serialPort.BaudRate = 115200;
             serialPort.ReceivedBytesThreshold = 1;
             serialPort.DataReceived += SerialPort_DataReceived;
+
+            //set up graph using timer
+            var timer = new System.Timers.Timer(16);
+            timer.Elapsed += new ElapsedEventHandler(DrawNewPointOnGraph);
+            timer.Start();
+
+        }
+
+        private void DrawNewPointOnGraph(object sender, ElapsedEventArgs e)
+        {
+            //function to draw the desired graphs 
+            var graphicsView = this.LineGraphView;
+            var lineGraphDrawable = (LineDrawable)graphicsView.Drawable;
+
+            double angle = Math.PI * degrees++ / 180;
+            lineGraphDrawable.baseGraphs[0].Yaxis = (int)((graphHeight / 2 * Math.Sin(angle)) + graphHeight / 2); //sin
+            lineGraphDrawable.baseGraphs[1].Yaxis = (int)(-0.002 * Math.Pow((500 - count), 2) + graphHeight); //quadratic
+            lineGraphDrawable.baseGraphs[2].Yaxis = count--; //sawtooth
+            lineGraphDrawable.baseGraphs[3].Yaxis = (int)((solarCalc.analogVoltage[0]/4096) + graphHeight / 2); //sin
+            if (count < 0)
+            {
+                count = graphHeight;
+            }
+
+            //lineGraphDrawable.baseGraphs[0].Yaxis = (int)solarCalc.analogVoltage[0];
+            //lineGraphDrawable.baseGraphs[1].Yaxis = (int)solarCalc.analogVoltage[1];
+            //lineGraphDrawable.baseGraphs[2].Yaxis = (int)solarCalc.analogVoltage[2];
+            //lineGraphDrawable.baseGraphs[3].Yaxis = (int)solarCalc.analogVoltage[3];
+            //lineGraphDrawable.baseGraphs[4].Yaxis = (int)solarCalc.analogVoltage[4];
+
+            graphicsView.Invalidate();
         }
 
         //function that recieves the serial port data and invokes an action on the main thread using information provided by MyMainThreadCode fucntion .  

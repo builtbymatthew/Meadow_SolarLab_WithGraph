@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Maui.Graphics.Converters;
-using UIKit;
+
 
 namespace SolarLabRight2023
 {
     public class LineDrawable : BaseGraphData, IDrawable
     {
-        private const int numberOfGraphs = 3;
-        private string[] colorName = new string[numberOfGraphs] { "Red", "Blue", "DarkGreen" };
+        
+        private const int numberOfGraphs = 5;
+        private string[] colorName = new string[numberOfGraphs] { "Red", "Blue", "DarkGreen","Purple","White" };
         ColorTypeConverter converter = new ColorTypeConverter();
-        private int[] lineWidth = new int[numberOfGraphs] { 1, 1, 1, };
+        private int[] lineWidth = new int[numberOfGraphs] { 1, 1, 1,1,1 };
         public BaseGraphData[] baseGraphs = new BaseGraphData[numberOfGraphs];
 
         //default contructor
