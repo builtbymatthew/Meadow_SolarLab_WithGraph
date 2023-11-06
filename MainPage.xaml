@@ -80,7 +80,7 @@
                 <GraphicsView Drawable="{StaticResource lineDrawable}"
                           x:Name="LineGraphView"
                           HeightRequest="500"
-                          WidthRequest="500"/>   
+                          WidthRequest="650"/>   
                 
             </HorizontalStackLayout>
             

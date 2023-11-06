@@ -42,7 +42,18 @@ namespace SolarLabRight2023
             {
                 Rect baseGraphRect = new(dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
                 DrawLineGraph(canvas, baseGraphRect, baseGraphs[graphIndex]);
+                DrawBarGraph(canvas, baseGraphRect, baseGraphs[graphIndex], graphIndex);
             }
+        }
+
+        private void DrawBarGraph(ICanvas canvas, Rect baseGraphRect, BaseGraphData baseGraphData, int graphIndex)
+        {
+            int barWidth = 10;
+            int lineGraphWidth = 600;
+            int barGraphLocation = lineGraphWidth + barWidth / 2 + graphIndex * barWidth;
+            int graphHeight = 500;
+            canvas.StrokeSize = barWidth;
+            canvas.DrawLine(barGraphLocation, graphHeight, barGraphLocation, baseGraphData.Yaxis);
         }
 
         private void DrawLineGraph(ICanvas canvas, Rect baseGraphRect, BaseGraphData baseGraphData)
