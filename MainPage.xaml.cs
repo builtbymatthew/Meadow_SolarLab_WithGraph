@@ -92,10 +92,11 @@ namespace SolarLabRight2023
             var lineGraphDrawable = (LineDrawable)graphicsView.Drawable;
 
             double angle = Math.PI * degrees++ / 180;
-            lineGraphDrawable.baseGraphs[0].Yaxis = (int)((graphHeight / 2 * Math.Sin(angle)) + graphHeight / 2); //sin
-            lineGraphDrawable.baseGraphs[1].Yaxis = (int)(-0.002 * Math.Pow((500 - count), 2) + graphHeight); //quadratic
-            lineGraphDrawable.baseGraphs[2].Yaxis = count--; //sawtooth
-            lineGraphDrawable.baseGraphs[3].Yaxis = (int)((solarCalc.analogVoltage[0]/4096) + graphHeight / 2); //sin
+            //lineGraphDrawable.baseGraphs[0].Yaxis = (int)((graphHeight / 2 * Math.Sin(angle)) + graphHeight / 2); //sin
+            //lineGraphDrawable.baseGraphs[1].Yaxis = (int)(-0.002 * Math.Pow((500 - count), 2) + graphHeight); //quadratic
+            //lineGraphDrawable.baseGraphs[2].Yaxis = count--; //sawtooth
+            lineGraphDrawable.baseGraphs[0].Yaxis = (int)((solarCalc.analogVoltage[0]) * (500/3300)); //solar voltage
+            lineGraphDrawable.baseGraphs[0].Yaxis = (int)((solarCalc.analogVoltage[1]) * (500/3300));//battery voltage
             if (count < 0)
             {
                 count = graphHeight;
