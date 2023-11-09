@@ -25,7 +25,7 @@ namespace SolarLabRight2023
         public int graphHeight = 500;
 
 
-        //create a new instances needed for our program
+        //create new instances needed for our program
         StringBuilder stringBuilderSend = new StringBuilder("###1111196");
 
         SerialPort serialPort = new SerialPort();
@@ -70,7 +70,7 @@ namespace SolarLabRight2023
 
         }
 
-        //function that initialize the serialPort with our desired data rate 
+        //function that initialize the serialPort with our desired data rate and draws a new point on our graph every 16ms
         private void MainPage_Loaded(object sender, EventArgs e)
         {
             //set up serial ports 
@@ -78,29 +78,30 @@ namespace SolarLabRight2023
             serialPort.ReceivedBytesThreshold = 1;
             serialPort.DataReceived += SerialPort_DataReceived;
 
-            //set up graph using timer
+            //graph a new point every 16ms
             var timer = new System.Timers.Timer(16);
             timer.Elapsed += new ElapsedEventHandler(DrawNewPointOnGraph);
             timer.Start();
 
         }
 
+        //function to draw a new point on the grpah when called 
         private void DrawNewPointOnGraph(object sender, ElapsedEventArgs e)
         {
-            //function to draw the desired graphs 
+            //
             var graphicsView = this.LineGraphView;
-            var lineGraphDrawable = (LineDrawable)graphicsView.Drawable;
+            var lineGraphDrawable = (LineDrawable)graphicsView.Drawable; //array to store the Y-axes of the graphs you want to draw
 
-            double angle = Math.PI * degrees++ / 180;
+            //double angle = Math.PI * degrees++ / 180;
             //lineGraphDrawable.baseGraphs[0].Yaxis = (int)((graphHeight / 2 * Math.Sin(angle)) + graphHeight / 2); //sin
             //lineGraphDrawable.baseGraphs[1].Yaxis = (int)(-0.002 * Math.Pow((500 - count), 2) + graphHeight); //quadratic
-            //lineGraphDrawable.baseGraphs[2].Yaxis = count--; //sawtooth
-            lineGraphDrawable.baseGraphs[0].Yaxis = (int)((solarCalc.analogVoltage[0]) * (500/3300)); //solar voltage
-            lineGraphDrawable.baseGraphs[0].Yaxis = (int)((solarCalc.analogVoltage[1]) * (500/3300));//battery voltage
-            if (count < 0)
-            {
-                count = graphHeight;
-            }
+            //lineGraphDrawable.baseGraphs[1].Yaxis = count--; //sawtooth
+            lineGraphDrawable.baseGraphs[0].Yaxis = (int)(500 - (solarCalc.analogVoltage[0]) * (500.0/3300.0));//Y axis value for solar voltage
+            lineGraphDrawable.baseGraphs[1].Yaxis = (int)(500 - (solarCalc.analogVoltage[1]) * (500.0/3300.0));//Y axis value for battery voltage
+            //if (count < 0)
+            //{
+            //    count = graphHeight;
+            //}
 
             //lineGraphDrawable.baseGraphs[0].Yaxis = (int)solarCalc.analogVoltage[0];
             //lineGraphDrawable.baseGraphs[1].Yaxis = (int)solarCalc.analogVoltage[1];

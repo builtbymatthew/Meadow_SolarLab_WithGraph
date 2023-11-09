@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace SolarLabRight2023
 {
+    //class created to store the data from the graphs you wish to create 
     public class BaseGraphData
     {
+        //create public variables which can be referenced in other classes 
         public int Yaxis { get; set; } = 0;
         public int Xaxis { get; set; } = 0;
         public int[] pointArray { get; set; }
@@ -22,6 +24,7 @@ namespace SolarLabRight2023
         }
         //constructor
 
+        //public function that will set the next graps parameters with the parameters you pass to this function 
         public BaseGraphData(
             int Yaxis,
             int Xaxis,

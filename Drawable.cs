@@ -11,6 +11,7 @@ namespace SolarLabRight2023
     public class LineDrawable : BaseGraphData, IDrawable
     {
         
+        //necessary values and instantances are created here
         private const int numberOfGraphs = 2;
         private string[] colorName = new string[numberOfGraphs] {"Blue","White" };
         ColorTypeConverter converter = new ColorTypeConverter();
@@ -18,9 +19,9 @@ namespace SolarLabRight2023
         public BaseGraphData[] baseGraphs = new BaseGraphData[numberOfGraphs];
 
         //default contructor
-
         public LineDrawable() : base()
         {
+            //for the number of graphs I set, create a new graph with the parameters passed to baseGraphs[]
             for (int i = 0; i < numberOfGraphs; i++)
             {
                 baseGraphs[i] = new BaseGraphData
@@ -36,6 +37,7 @@ namespace SolarLabRight2023
             }
         }
 
+        //draw the desired graphs on the canvas 
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
             for (int graphIndex = 0; graphIndex < baseGraphs.Length; graphIndex++)
@@ -46,6 +48,7 @@ namespace SolarLabRight2023
             }
         }
 
+        //draw the desired bar graph with the passed parameters 
         private void DrawBarGraph(ICanvas canvas, Rect baseGraphRect, BaseGraphData baseGraphData, int graphIndex)
         {
             int barWidth = 10;
@@ -56,6 +59,7 @@ namespace SolarLabRight2023
             canvas.DrawLine(barGraphLocation, graphHeight, barGraphLocation, baseGraphData.Yaxis);
         }
 
+        //draw the desired line graph with the passed parameters 
         private void DrawLineGraph(ICanvas canvas, Rect baseGraphRect, BaseGraphData baseGraphData)
         {
             if (baseGraphData.Xaxis < 2)
